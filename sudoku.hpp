@@ -8,9 +8,6 @@ class Sudoku
 {
 public:
 	Sudoku(std::initializer_list<unsigned> digits) : puzzle(digits) { }
-	~Sudoku() = default;
-
-	bool solve() { return solveSudoku(puzzle, 0, 0); };
 
 	void setPuzzle(std::vector<unsigned> digits)
 	{
@@ -20,21 +17,12 @@ public:
 
 	std::vector<unsigned> getPuzzle() const { return puzzle; };
 
+	bool solve() { return solveSudoku(puzzle, 0, 0); };
+
 	friend std::ostream& operator<< (std::ostream& os, const Sudoku& s)
 	{
-		//for (unsigned i = 1; i < 82; i++)
-			//os << s.puzzle[i - 1] << ((!(i % 9)) ? "\n" : " ");
-		for (int i = 0; i < 81; i++)
-		{
-			// Divider every 3rd row.
-			if ((i / 9) != 0 && (i / 9) % 3 == 0 && (i % 9) == 0)
-				os << "---+---+---" << std::endl;
-			// Divider every 3rd column.
-			((i % 9) != 0 && (i % 9) % 3 == 0) ? os << "|" : os << "";
-			os << s.puzzle[i];
-			if (!((i + 1) % 9))
-				os << std::endl;
-		}
+		for (unsigned i = 1; i < 82; i++)
+			os << s.puzzle[i - 1] << ((!(i % 9)) ? "\n" : " ");
 		return os;
 	}
 
@@ -53,16 +41,13 @@ private:
 			// Is same value in the row?
 			if (puzzle[9 * row + i] == n)
 				return false;
-
 			// Is same value in the column?
 			if (puzzle[9 * i + column] == n)
 				return false;
-
 			// Is same value inside 3x3 sub-square?
 			if (puzzle[(9 * (rowStart + (i % 3))) + colStart + (i / 3)] == n)
 				return false;
 		}
-
 		return true;
 	}
 
@@ -102,7 +87,6 @@ private:
 							else
 								// Failure, so backtrack.
 								puzzle[9 * row + column] = 0;
-
 						else if ((row + 1) < 9)
 							// Attempt to complete all rows.
 							if (solveSudoku(puzzle, row + 1, 0))
@@ -110,13 +94,11 @@ private:
 							else
 								// Failure, so backtrack.
 								puzzle[9 * row + column] = 0;
-
 						else
 							return true;
 					}
 				}
 			}
-
 			// Failed.
 			return false;
 		}
