@@ -1,21 +1,14 @@
+// Basic sudoku solver.
+// 7/15/2018 JME.
 #pragma once
 
 #include <iostream>
-#include <vector>
-#include <initializer_list>
+#include <array>
 
 class Sudoku
 {
 public:
-	Sudoku(std::initializer_list<unsigned> digits) : puzzle(digits) { }
-
-	void setPuzzle(std::vector<unsigned> digits)
-	{
-		if (digits.size() != 81) return;
-		for (int i = 0; i < 81; i++) puzzle[i] = digits[i];
-	};
-
-	std::vector<unsigned> getPuzzle() const { return puzzle; };
+	Sudoku(std::array<unsigned, 81> p) : puzzle(p) { }
 
 	bool solve() { return solveSudoku(puzzle, 0, 0); };
 
@@ -27,10 +20,10 @@ public:
 	}
 
 private:
-	std::vector<unsigned> puzzle;
+	std::array<unsigned, 81> puzzle;
 
 	// Check if value is valid for the square.
-	bool isAvailable(std::vector<unsigned> puzzle, int row, int column, int n)
+	bool isAvailable(std::array<unsigned, 81> puzzle, int row, int column, int n)
 	{
 		// Calculate top right corner of sub-square. 
 		int rowStart = (row / 3) * 3;
@@ -41,9 +34,11 @@ private:
 			// Is same value in the row?
 			if (puzzle[9 * row + i] == n)
 				return false;
+
 			// Is same value in the column?
 			if (puzzle[9 * i + column] == n)
 				return false;
+
 			// Is same value inside 3x3 sub-square?
 			if (puzzle[(9 * (rowStart + (i % 3))) + colStart + (i / 3)] == n)
 				return false;
@@ -52,11 +47,8 @@ private:
 	}
 
 	// Recursively attempt to fill all squares.
-	bool solveSudoku(std::vector<unsigned> &puzzle, int row, int column)
+	bool solveSudoku(std::array<unsigned, 81> &puzzle, int row, int column)
 	{
-		if (puzzle.size() != 81)
-			return false;
-
 		// Completed all squares?
 		if (row < 9 && column < 9)
 		{
