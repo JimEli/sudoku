@@ -1,11 +1,11 @@
 // Sudoku solver example usage.
-#include <iostream>
 
+#include <iostream>
 #include "sudoku.hpp"
 
 int main()
 {
-	// Attempt to solve.
+	// Attempt to solve this puzzle.
 	Sudoku sudoku = Sudoku({ 
 		3, 0, 6, 5, 0, 8, 4, 0, 0,
 		5, 2, 0, 0, 0, 0, 0, 0, 0,
