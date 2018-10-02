@@ -1,6 +1,5 @@
 // Basic sudoku solver.
 // 7/15/2018 JME.
-#pragma once
 
 #include <iostream>
 #include <array>
@@ -8,10 +7,13 @@
 class Sudoku
 {
 public:
+	// Ctor.
 	Sudoku(std::array<unsigned, 81> p) : puzzle(p) { }
 
+	// Solver calls private recursive solver function.
 	bool solve() { return solveSudoku(puzzle, 0, 0); };
 
+	// print puzzle.
 	friend std::ostream& operator<< (std::ostream& os, const Sudoku& s)
 	{
 		for (unsigned i = 1; i < 82; i++)
