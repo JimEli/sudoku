@@ -11,7 +11,7 @@ public:
 	Sudoku(std::array<unsigned, 81> p) : puzzle(p) { }
 
 	// Solver calls private recursive solver function.
-	bool solve() { return solveSudoku(puzzle, 0, 0); };
+	bool solve() { return solve(puzzle, 0, 0); };
 
 	// print puzzle.
 	friend std::ostream& operator<< (std::ostream& os, const Sudoku& s)
@@ -49,7 +49,7 @@ private:
 	}
 
 	// Recursively attempt to fill all squares.
-	bool solveSudoku(std::array<unsigned, 81> &puzzle, int row, int column)
+	bool solve(std::array<unsigned, 81> &puzzle, int row, int column)
 	{
 		// Completed all squares?
 		if (row < 9 && column < 9)
@@ -59,9 +59,9 @@ private:
 			{
 				// Check all columns and rows.
 				if ((column + 1) < 9)
-					return solveSudoku(puzzle, row, column + 1);
+					return solve(puzzle, row, column + 1);
 				else if ((row + 1) < 9)
-					return solveSudoku(puzzle, row + 1, 0);
+					return solve(puzzle, row + 1, 0);
 				else
 					return true;
 			}
@@ -76,14 +76,14 @@ private:
 
 						if ((column + 1) < 9)
 							// Attempt to complete all columns.
-							if (solveSudoku(puzzle, row, column + 1))
+							if (solve(puzzle, row, column + 1))
 								return true;
 							else
 								// Failure, so backtrack.
 								puzzle[9 * row + column] = 0;
 						else if ((row + 1) < 9)
 							// Attempt to complete all rows.
-							if (solveSudoku(puzzle, row + 1, 0))
+							if (solve(puzzle, row + 1, 0))
 								return true;
 							else
 								// Failure, so backtrack.
